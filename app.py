@@ -50,9 +50,12 @@ def index():
                           sender=app.config["MAIL_USERNAME"],
                           recipients=[email],
                           body=message_body)
-        mail.send(message)
-
-        flash(f"{first_name}, your form was submitted successfully!", "success")
+        try:
+            mail.send(message)
+            flash(f"{first_name}, your form was submitted successfully and an email has been sent!", "success")
+        except Exception as e:
+            flash(f"{first_name}, your form was submitted, but we could not send the email.")
+            print(e)
 
 
     return render_template("index.html")
